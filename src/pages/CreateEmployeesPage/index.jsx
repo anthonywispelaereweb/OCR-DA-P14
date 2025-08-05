@@ -1,9 +1,13 @@
 import './CreateEmployeesPage.css'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addEmployee } from '../../store/employeesSlice'
 
 
 const CreateEmployeesPage = () => {
+  const dispatch = useDispatch()
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -54,7 +58,7 @@ const CreateEmployeesPage = () => {
     }
 
     // Si tous les champs sont remplis, traiter la soumission
-    console.log('Form submitted:', formData)
+    dispatch(addEmployee(formData))
     alert('Employee created successfully!')
     
     // Réinitialiser le formulaire après soumission réussie
