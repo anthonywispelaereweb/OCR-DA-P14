@@ -18,8 +18,8 @@ Cette application remplace l'ancienne version jQuery par une version moderne en 
 - **React Router** - Gestion de la navigation entre les pages
 - **Redux Toolkit** - Gestion d'état globale de l'application
 - **React-Redux** - Intégration de Redux avec React
+
 - **ESLint** - Linting du code pour maintenir la qualité
-- **CSS3** - Styles personnalisés pour l'interface
 
 ## 📁 Structure du projet
 

@@ -1,4 +1,3 @@
-import './CreateEmployeesPage.css'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -76,116 +75,180 @@ const CreateEmployeesPage = () => {
   }
 
   return (
-    <div className='container create-employee-div'>
-      <h1>Create Employee</h1>
-      <Link to='/list'>Current Employees</Link>
-      <form className='container' onSubmit={handleSubmit}>
-        <label htmlFor='first-name'>First Name</label>
-        <input 
-          type='text' 
-          id='first-name' 
-          name='firstName'
-          value={formData.firstName}
-          onChange={handleInputChange}
-          required
-        />
+    <div className='container page-container'>
+      <div className='header-section'>
+        <h1 className='page-title'>Create Employee</h1>
+        <Link 
+          to='/list' 
+          className='btn-primary'
+        >
+          View Current Employees
+        </Link>
+      </div>
+      
+      <form className='form-container' onSubmit={handleSubmit}>
+        <div className='flex-form'>
+          <div>
+            <label htmlFor="first-name" className='form-label'>
+              First Name
+            </label>
+            <input 
+              type='text' 
+              id='first-name' 
+              name='firstName'
+              value={formData.firstName}
+              onChange={handleInputChange}
+              required
+              className='form-input'
+            />
+          </div>
 
-        <label htmlFor='last-name'>Last Name</label>
-        <input 
-          type='text' 
-          id='last-name' 
-          name='lastName'
-          value={formData.lastName}
-          onChange={handleInputChange}
-          required
-        />
+          <div>
+            <label htmlFor='last-name' className='form-label'>
+              Last Name
+            </label>
+            <input 
+              type='text' 
+              id='last-name' 
+              name='lastName'
+              value={formData.lastName}
+              onChange={handleInputChange}
+              required
+              className='form-input'
+            />
+          </div>
 
-        <label htmlFor='date-of-birth'>Date of Birth</label>
-        <input 
-          id='date-of-birth' 
-          type='date' 
-          name='dateOfBirth'
-          value={formData.dateOfBirth}
-          onChange={handleInputChange}
-          required
-        />
+          <div>
+            <label htmlFor='date-of-birth' className='form-label'>
+              Date of Birth
+            </label>
+            <input 
+              id='date-of-birth' 
+              type='date' 
+              name='dateOfBirth'
+              value={formData.dateOfBirth}
+              onChange={handleInputChange}
+              required
+              className='form-input'
+            />
+          </div>
 
-        <label htmlFor='start-date'>Start Date</label>
-        <input 
-          id='start-date' 
-          type='date' 
-          name='startDate'
-          value={formData.startDate}
-          onChange={handleInputChange}
-          required
-        />
+          <div>
+            <label htmlFor='start-date' className='form-label'>
+              Start Date
+            </label>
+            <input 
+              id='start-date' 
+              type='date' 
+              name='startDate'
+              value={formData.startDate}
+              onChange={handleInputChange}
+              required
+              className='form-input'
+            />
+          </div>
+        </div>
 
-        <fieldset className='address'>
-          <legend>Address</legend>
+        <fieldset className='fieldset'>
+          <legend className='legend'>Address</legend>
+          
+          <div className='flex-form-address'>
+            <div className='span-2'>
+              <label htmlFor='street' className='form-label'>
+                Street
+              </label>
+              <input 
+                id='street' 
+                type='text' 
+                name='street'
+                value={formData.street}
+                onChange={handleInputChange}
+                required
+                className='form-input'
+              />
+            </div>
 
-          <label htmlFor='street'>Street</label>
-          <input 
-            id='street' 
-            type='text' 
-            name='street'
-            value={formData.street}
-            onChange={handleInputChange}
-            required
-          />
+            <div>
+              <label htmlFor='city' className='form-label'>
+                City
+              </label>
+              <input 
+                id='city' 
+                type='text' 
+                name='city'
+                value={formData.city}
+                onChange={handleInputChange}
+                required
+                className='form-input'
+              />
+            </div>
 
-          <label htmlFor='city'>City</label>
-          <input 
-            id='city' 
-            type='text' 
-            name='city'
-            value={formData.city}
-            onChange={handleInputChange}
-            required
-          />
+            <div>
+              <label htmlFor='state' className='form-label'>
+                State
+              </label>
+              <select 
+                name='state' 
+                id='state'
+                value={formData.state}
+                onChange={handleInputChange}
+                required
+                className='form-input'
+              >
+                <option value="">Select a state</option>
+                <option value="AL">Alabama</option>
+                <option value="CA">California</option>
+                <option value="FL">Florida</option>
+                <option value="NY">New York</option>
+                <option value="TX">Texas</option>
+              </select>
+            </div>
 
-          <label htmlFor='state'>State</label>
-          <select 
-            name='state' 
-            id='state'
-            value={formData.state}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="">Select a state</option>
-            <option value="AL">Alabama</option>
-            <option value="CA">California</option>
-            <option value="FL">Florida</option>
-            <option value="NY">New York</option>
-            <option value="TX">Texas</option>
-          </select>
-
-          <label htmlFor='zip-code'>Zip Code</label>
-          <input 
-            id='zip-code' 
-            type='number' 
-            name='zipCode'
-            value={formData.zipCode}
-            onChange={handleInputChange}
-            required
-          />
+            <div>
+              <label htmlFor='zip-code' className='form-label'>
+                Zip Code
+              </label>
+              <input 
+                id='zip-code' 
+                type='number' 
+                name='zipCode'
+                value={formData.zipCode}
+                onChange={handleInputChange}
+                required
+                className='form-input'
+              />
+            </div>
+          </div>
         </fieldset>
 
-        <label htmlFor='department'>Department</label>
-        <select 
-          name='department' 
-          id='department'
-          value={formData.department}
-          onChange={handleInputChange}
-          required
-        >
-          <option value="Sales">Sales</option>
-          <option value="Marketing">Marketing</option>
-          <option value="Engineering">Engineering</option>
-          <option value="Human Resources">Human Resources</option>
-          <option value="Legal">Legal</option>
-        </select>
+        <div className='mb-6'>
+          <label htmlFor='department' className='form-label'>
+            Department
+          </label>
+          <select 
+            name='department' 
+            id='department'
+            value={formData.department}
+            onChange={handleInputChange}
+            required
+            className='form-input'
+          >
+            <option value="Sales">Sales</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Human Resources">Human Resources</option>
+            <option value="Legal">Legal</option>
+          </select>
+        </div>
 
-        <button type='submit'>Save</button>
+        <div className='btn-center'>
+          <button 
+            type='submit'
+            className='btn-primary'
+          >
+            Save Employee
+          </button>
+        </div>
       </form>
     </div>
   )
