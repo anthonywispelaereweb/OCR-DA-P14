@@ -5,11 +5,23 @@ import { Modal } from 'hrnet-plugin-modal-aw';
 import 'hrnet-plugin-modal-aw/dist/style.css';
 import { addEmployee } from '../../store/employeesSlice'
 import AppSelect from '../../components/AppSelect'
+import AppInput from '../../components/AppInput'
+import AppSelectGeneric from '../../components/AppSelectGeneric'
 
 const CreateEmployeesPage = () => {
   const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageModal, setMessageModal] = useState('');
+  
+  // Options pour le département
+  const departmentOptions = [
+    { value: 'Sales', label: 'Sales' },
+    { value: 'Marketing', label: 'Marketing' },
+    { value: 'Engineering', label: 'Engineering' },
+    { value: 'Human Resources', label: 'Human Resources' },
+    { value: 'Legal', label: 'Legal' }
+  ]
+
   const [formData, setFormData] = useState({
     firstName: 'aze',
     lastName: 'aze',
@@ -99,65 +111,43 @@ const CreateEmployeesPage = () => {
       
       <form className='form-container' onSubmit={handleSubmit}>
         <div className='flex-form'>
-          <div>
-            <label htmlFor="first-name" className='form-label'>
-              First Name
-            </label>
-            <input 
-              type='text' 
-              id='first-name' 
-              name='firstName'
-              value={formData.firstName}
-              onChange={handleInputChange}
-              required
-              className='form-input'
-            />
-          </div>
+          <AppInput
+            id="first-name"
+            label="First Name"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleInputChange}
+            required
+          />
 
-          <div>
-            <label htmlFor='last-name' className='form-label'>
-              Last Name
-            </label>
-            <input 
-              type='text' 
-              id='last-name' 
-              name='lastName'
-              value={formData.lastName}
-              onChange={handleInputChange}
-              required
-              className='form-input'
-            />
-          </div>
+          <AppInput
+            id="last-name"
+            label="Last Name"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleInputChange}
+            required
+          />
 
-          <div>
-            <label htmlFor='date-of-birth' className='form-label'>
-              Date of Birth
-            </label>
-            <input 
-              id='date-of-birth' 
-              type='date' 
-              name='dateOfBirth'
-              value={formData.dateOfBirth}
-              onChange={handleInputChange}
-              required
-              className='form-input'
-            />
-          </div>
+          <AppInput
+            id="date-of-birth"
+            label="Date of Birth"
+            type="date"
+            name="dateOfBirth"
+            value={formData.dateOfBirth}
+            onChange={handleInputChange}
+            required
+          />
 
-          <div>
-            <label htmlFor='start-date' className='form-label'>
-              Start Date
-            </label>
-            <input 
-              id='start-date' 
-              type='date' 
-              name='startDate'
-              value={formData.startDate}
-              onChange={handleInputChange}
-              required
-              className='form-input'
-            />
-          </div>
+          <AppInput
+            id="start-date"
+            label="Start Date"
+            type="date"
+            name="startDate"
+            value={formData.startDate}
+            onChange={handleInputChange}
+            required
+          />
         </div>
 
         <fieldset className='fieldset'>
@@ -165,34 +155,24 @@ const CreateEmployeesPage = () => {
           
           <div className='flex-form-address'>
             <div className='span-2'>
-              <label htmlFor='street' className='form-label'>
-                Street
-              </label>
-              <input 
-                id='street' 
-                type='text' 
-                name='street'
+              <AppInput
+                id="street"
+                label="Street"
+                name="street"
                 value={formData.street}
                 onChange={handleInputChange}
                 required
-                className='form-input'
               />
             </div>
 
-            <div>
-              <label htmlFor='city' className='form-label'>
-                City
-              </label>
-              <input 
-                id='city' 
-                type='text' 
-                name='city'
-                value={formData.city}
-                onChange={handleInputChange}
-                required
-                className='form-input'
-              />
-            </div>
+            <AppInput
+              id="city"
+              label="City"
+              name="city"
+              value={formData.city}
+              onChange={handleInputChange}
+              required
+            />
 
             <div>
               <label htmlFor='state' className='form-label'>
@@ -201,41 +181,29 @@ const CreateEmployeesPage = () => {
               <AppSelect handleChangeEventSelect={handleInputChange} />
             </div>
 
-            <div>
-              <label htmlFor='zip-code' className='form-label'>
-                Zip Code
-              </label>
-              <input 
-                id='zip-code' 
-                type='number' 
-                name='zipCode'
-                value={formData.zipCode}
-                onChange={handleInputChange}
-                required
-                className='form-input'
-              />
-            </div>
+            <AppInput
+              id="zip-code"
+              label="Zip Code"
+              type="number"
+              name="zipCode"
+              value={formData.zipCode}
+              onChange={handleInputChange}
+              required
+            />
           </div>
         </fieldset>
 
         <div className='mb-6'>
-          <label htmlFor='department' className='form-label'>
-            Department
-          </label>
-          <select 
-            name='department' 
-            id='department'
+          <AppSelectGeneric
+            id="department"
+            label="Department"
+            name="department"
             value={formData.department}
             onChange={handleInputChange}
+            options={departmentOptions}
             required
-            className='form-input'
-          >
-            <option value="Sales">Sales</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Engineering">Engineering</option>
-            <option value="Human Resources">Human Resources</option>
-            <option value="Legal">Legal</option>
-          </select>
+            placeholder="Select a department"
+          />
         </div>
 
         <div className='btn-center'>

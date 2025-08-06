@@ -1,12 +1,41 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAllEmployees } from '../../store/employeesSlice';
+import AppTable from '../../components/AppTable';
 
 const CurrentEmployeesPage = () => {
   const employees = useSelector(selectAllEmployees);
 
+  // Fonction pour formater les dates
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR');
+  };
+
+  // Configuration des colonnes du tableau
+  const columns = [
+    { key: 'firstName', label: 'First Name' },
+    { key: 'lastName', label: 'Last Name' },
+    { 
+      key: 'startDate', 
+      label: 'Start Date',
+      render: (value) => formatDate(value)
+    },
+    { key: 'department', label: 'Department' },
+    { 
+      key: 'dateOfBirth', 
+      label: 'Date of Birth',
+      render: (value) => formatDate(value)
+    },
+    { key: 'street', label: 'Street' },
+    { key: 'city', label: 'City' },
+    { key: 'state', label: 'State' },
+    { key: 'zipCode', label: 'Zip Code' }
+  ];
+
   return (
-    <div className="container page-container-xl">
+    <div className="container">
       <h1 className="page-title">Current Employees</h1>
       
       {employees.length === 0 ? (
@@ -20,48 +49,11 @@ const CurrentEmployeesPage = () => {
           </Link>
         </div>
       ) : (
-        <div className="table-container">
-          <div className="table-wrapper">
-            <table className="table">
-              <thead className="table-header">
-                <tr>
-                  <th className="table-th">First Name</th>
-                  <th className="table-th">Last Name</th>
-                  <th className="table-th">Start Date</th>
-                  <th className="table-th">Department</th>
-                  <th className="table-th">Date of Birth</th>
-                  <th className="table-th">Street</th>
-                  <th className="table-th">City</th>
-                  <th className="table-th">State</th>
-                  <th className="table-th">Zip Code</th>
-                </tr>
-              </thead>
-              <tbody className="table-body">
-                {employees.map((employee, index) => (
-                  <tr 
-                    key={employee.id} 
-                    className={`table-row ${index % 2 === 0 ? 'table-row-even' : 'table-row-odd'}`}
-                  >
-                    <td className="table-td">{employee.firstName}</td>
-                    <td className="table-td">{employee.lastName}</td>
-                    <td className="table-td">{employee.startDate}</td>
-                    <td className="table-td">{employee.department}</td>
-                    <td className="table-td">{employee.dateOfBirth}</td>
-                    <td className="table-td">{employee.street}</td>
-                    <td className="table-td">{employee.city}</td>
-                    <td className="table-td">{employee.state}</td>
-                    <td className="table-td">{employee.zipCode}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="table-footer">
-            <p className="table-footer-text">
-              Total employees: <span className="table-count">{employees.length}</span>
-            </p>
-          </div>
-        </div>
+        <AppTable
+          columns={columns}
+          data={employees}
+          footerLabel="Total employees"
+        />
       )}
       
       <div className="text-center mt-8">
