@@ -1,26 +1,36 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { Modal } from 'hrnet-plugin-modal-aw';
+import 'hrnet-plugin-modal-aw/dist/style.css';
 import { addEmployee } from '../../store/employeesSlice'
-
+import AppSelect from '../../components/AppSelect'
 
 const CreateEmployeesPage = () => {
   const dispatch = useDispatch()
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [messageModal, setMessageModal] = useState('');
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
-    startDate: '',
-    street: '',
-    city: '',
-    state: '',
-    zipCode: '',
+    firstName: 'aze',
+    lastName: 'aze',
+    dateOfBirth: '2025-08-15',
+    startDate: '2025-08-15',
+    street: 'aze',
+    city: 'aze',
+    state: 'CA',
+    zipCode: '12345',
     department: 'Sales'
   })
 
+  const toggleModal = (message) => {
+    setMessageModal(message);
+    setIsModalOpen(!isModalOpen);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
+    console.log("🚀 ~ handleInputChange ~ value:", value)
+    console.log("🚀 ~ handleInputChange ~ name:", name)
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -52,14 +62,15 @@ const CreateEmployeesPage = () => {
     }
 
     if (emptyFields.length > 0) {
-      alert(`Please fill in the following required fields:\n${emptyFields.join('\n')}`)
+      toggleModal(`Please fill in the following required fields:\n${emptyFields.join('\n')}`)
       return
     }
 
     // Si tous les champs sont remplis, traiter la soumission
     dispatch(addEmployee(formData))
-    alert('Employee created successfully!')
-    
+
+    toggleModal('Employee created successfully!')
+
     // Réinitialiser le formulaire après soumission réussie
     setFormData({
       firstName: '',
@@ -187,21 +198,7 @@ const CreateEmployeesPage = () => {
               <label htmlFor='state' className='form-label'>
                 State
               </label>
-              <select 
-                name='state' 
-                id='state'
-                value={formData.state}
-                onChange={handleInputChange}
-                required
-                className='form-input'
-              >
-                <option value="">Select a state</option>
-                <option value="AL">Alabama</option>
-                <option value="CA">California</option>
-                <option value="FL">Florida</option>
-                <option value="NY">New York</option>
-                <option value="TX">Texas</option>
-              </select>
+              <AppSelect handleChangeEventSelect={handleInputChange} />
             </div>
 
             <div>
@@ -250,6 +247,11 @@ const CreateEmployeesPage = () => {
           </button>
         </div>
       </form>
+      <Modal 
+        isOpen={isModalOpen} 
+        message={messageModal}
+        onClose={toggleModal} 
+      />
     </div>
   )
 }
