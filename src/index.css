@@ -526,8 +526,8 @@ a {
   position: absolute;
   z-index: 10;
   background: #fff;
-  border: 1px solid #d1d5db;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+  border: 1px solid #10b981;
+  box-shadow: 0 1px 3px 0 rgba(16,185,129,0.1), 0 1px 2px 0 rgba(16,185,129,0.06);
   padding: 1rem;
   border-radius: 0.5rem;
   top: 2.5rem;
@@ -594,6 +594,8 @@ a {
   left: 0;
   right: auto;
   bottom: auto;
+  border-top-color: transparent;
+
 }
 .calendar-popup.top {
   bottom: 2.6rem;
@@ -607,6 +609,7 @@ a {
   right: auto;
   bottom: auto;
   border-top-left-radius: 0;
+  border-top-color: transparent;
 }
 .calendar-popup.right {
   top: 4.1rem;
@@ -614,6 +617,7 @@ a {
   left: auto;
   bottom: auto;
   border-top-right-radius: 0;
+  border-top-color: transparent;
 }
 
 .form-input.has-datepicker-left {
