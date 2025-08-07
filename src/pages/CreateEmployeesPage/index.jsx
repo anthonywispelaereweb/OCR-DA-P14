@@ -4,24 +4,16 @@ import { useDispatch } from 'react-redux'
 import { Modal } from 'hrnet-plugin-modal-aw';
 import 'hrnet-plugin-modal-aw/dist/style.css';
 import { addEmployee } from '../../store/employeesSlice'
-import AppSelect from '../../components/AppSelect'
 import AppInput from '../../components/AppInput'
 import AppSelectGeneric from '../../components/AppSelectGeneric'
 import AppDatePicker from '../../components/AppDatePicker'
-
+import  {departmentOptions , stateOptions} from '../../utils/constants.js'
 const CreateEmployeesPage = () => {
   const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageModal, setMessageModal] = useState('');
   
-  // Options pour le département
-  const departmentOptions = [
-    { value: 'Sales', label: 'Sales' },
-    { value: 'Marketing', label: 'Marketing' },
-    { value: 'Engineering', label: 'Engineering' },
-    { value: 'Human Resources', label: 'Human Resources' },
-    { value: 'Legal', label: 'Legal' }
-  ]
+
 
   const [formData, setFormData] = useState({
     firstName: 'aze',
@@ -182,7 +174,16 @@ const CreateEmployeesPage = () => {
               <label htmlFor='state' className='form-label'>
                 State
               </label>
-              <AppSelect handleChangeEventSelect={handleInputChange} />
+              <AppSelectGeneric
+                id="state"
+                label="State"
+                name="state"
+                value={formData.state}
+                onChange={handleInputChange}
+                options={stateOptions}
+                required
+                placeholder="Select a state"
+              />
             </div>
 
             <AppInput
