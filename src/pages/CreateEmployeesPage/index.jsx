@@ -7,6 +7,7 @@ import { addEmployee } from '../../store/employeesSlice'
 import AppSelect from '../../components/AppSelect'
 import AppInput from '../../components/AppInput'
 import AppSelectGeneric from '../../components/AppSelectGeneric'
+import AppDatePicker from '../../components/AppDatePicker'
 
 const CreateEmployeesPage = () => {
   const dispatch = useDispatch()
@@ -129,25 +130,28 @@ const CreateEmployeesPage = () => {
             required
           />
 
-          <AppInput
+          <AppDatePicker
             id="date-of-birth"
             label="Date of Birth"
-            type="date"
             name="dateOfBirth"
             value={formData.dateOfBirth}
             onChange={handleInputChange}
+            dropdownPosition="right"
+
             required
           />
 
-          <AppInput
+          <AppDatePicker
             id="start-date"
             label="Start Date"
-            type="date"
             name="startDate"
             value={formData.startDate}
             onChange={handleInputChange}
+            dropdownPosition="left"
             required
           />
+          
+          
         </div>
 
         <fieldset className='fieldset'>
