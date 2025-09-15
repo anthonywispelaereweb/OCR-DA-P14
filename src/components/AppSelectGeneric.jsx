@@ -1,35 +1,25 @@
 import PropTypes from 'prop-types'
 
-const AppSelectGeneric = ({ 
-  id, 
-  label, 
-  name, 
-  value, 
-  onChange, 
+const AppSelectGeneric = ({
+  id,
+  label,
+  name,
+  value,
+  onChange,
   options = [],
   required = false,
   className = 'form-input',
   placeholder = 'Select an option',
-  ...props 
+  ...props
 }) => {
   return (
     <div>
       <label htmlFor={id} className='form-label'>
         {label}
       </label>
-      <select
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required={required}
-        className={className}
-        {...props}
-      >
-        {placeholder && (
-          <option value="">{placeholder}</option>
-        )}
-        {options.map((option) => (
+      <select id={id} name={name} value={value} onChange={onChange} required={required} className={className} {...props}>
+        {placeholder && <option value=''>{placeholder}</option>}
+        {options.map(option => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>

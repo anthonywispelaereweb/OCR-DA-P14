@@ -500,16 +500,16 @@ a {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .pagination-controls {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .page-navigation {
     justify-content: center;
   }
-  
+
   .page-numbers {
     justify-content: center;
     flex-wrap: wrap;
@@ -527,7 +527,7 @@ a {
   z-index: 10;
   background: #fff;
   border: 1px solid #10b981;
-  box-shadow: 0 1px 3px 0 rgba(16,185,129,0.1), 0 1px 2px 0 rgba(16,185,129,0.06);
+  box-shadow: 0 1px 3px 0 rgba(16, 185, 129, 0.1), 0 1px 2px 0 rgba(16, 185, 129, 0.06);
   padding: 1rem;
   border-radius: 0.5rem;
   top: 2.5rem;
@@ -595,7 +595,6 @@ a {
   right: auto;
   bottom: auto;
   border-top-color: transparent;
-
 }
 .calendar-popup.top {
   bottom: 2.6rem;

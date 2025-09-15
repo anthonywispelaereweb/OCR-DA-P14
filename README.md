@@ -25,31 +25,64 @@ Cette application remplace l'ancienne version jQuery par une version moderne en 
 
 ```
 OCR-DA-P14/
+├── AnalyseLighthouse/
+│   ├── AppJquery/
+│   │   ├── formulaire-app-jquery.pdf
+│   │   ├── formulaire.json
+│   │   ├── hrnet-employee-list-app-jquery.pdf
+│   │   └── hrnet-employee-list.json
+│   └── AppReact/
+│       ├── formulaire-app-react.pdf
+│       ├── formulaire.json
+│       ├── hrnet-employee-list-app-react.pdf
+│       └── hrnet-employee-list.json
+├── cypress/
+│   ├── e2e/
+│   │   └── createEmployee.cy.js
+│   ├── fixtures/
+│   │   └── example.json
+│   ├── support/
+│   │   ├── commands.js
+│   │   └── e2e.js
+│   └── downloads/
 ├── public/
 │   └── vite.svg
 ├── src/
+│   ├── App.jsx
+│   ├── index.css
+│   ├── main.jsx
+│   ├── routing.jsx
+│   ├── assets/
+│   ├── components/
+│   │   ├── AppDatePicker.jsx
+│   │   ├── AppInput.jsx
+│   │   ├── AppSelectGeneric.jsx
+│   │   └── AppTable.jsx
+│   ├── __tests__/
+│   │   ├── AppDatePicker.test.jsx
+│   │   ├── AppInput.test.jsx
+│   │   └── AppSelectGeneric.test.jsx
 │   ├── pages/
 │   │   ├── CreateEmployeesPage/
-│   │   │   ├── index.jsx
-│   │   │   └── CreateEmployeesPage.css
+│   │   │   └── index.jsx
 │   │   ├── CurrentEmployeesPage/
-│   │   │   ├── index.jsx
-│   │   │   └── CurrentEmployeesPage.css
+│   │   │   └── index.jsx
 │   │   └── Errors/
 │   │       └── index.jsx
 │   ├── store/
-│   │   ├── store.js
-│   │   └── employeesSlice.js
-│   ├── assets/
-│   ├── App.jsx
-│   ├── App.css
-│   ├── main.jsx
-│   ├── index.css
-│   └── routing.jsx
-├── package.json
-├── vite.config.js
+│   │   ├── employeesSlice.js
+│   │   └── store.js
+│   ├── utils/
+│   │   ├── constants.js
+│   │   └── initalData.js
+├── cypress.config.js
 ├── eslint.config.js
-└── README.md
+├── index.html
+├── package.json
+├── package-lock.json
+├── README.md
+├── setupTests.ts
+└── vite.config.js
 ```
 
 ## 🛠️ Installation

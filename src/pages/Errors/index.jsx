@@ -12,7 +12,7 @@ const ErrorPage = () => {
     503: 'Service indisponible',
     504: 'Délai d’attente de la passerelle dépassé'
   }
-  
+
   const errorMessage = errorMessages[errorId] || 'Erreur inconnue'
   return (
     <div className='container-flex error-page flex-column flex-center'>

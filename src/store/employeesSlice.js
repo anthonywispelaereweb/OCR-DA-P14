@@ -21,9 +21,7 @@ const employeesSlice = createSlice({
       state.employees.push(newEmployee)
     },
     removeEmployee: (state, action) => {
-      state.employees = state.employees.filter(
-        employee => employee.id !== action.payload
-      )
+      state.employees = state.employees.filter(employee => employee.id !== action.payload)
     },
     updateEmployee: (state, action) => {
       const { id, ...updates } = action.payload
@@ -32,7 +30,7 @@ const employeesSlice = createSlice({
         Object.assign(existingEmployee, updates)
       }
     },
-    clearEmployees: (state) => {
+    clearEmployees: state => {
       state.employees = []
     }
   }
@@ -41,9 +39,8 @@ const employeesSlice = createSlice({
 export const { addEmployee, removeEmployee, updateEmployee, clearEmployees } = employeesSlice.actions
 
 // Selectors
-export const selectAllEmployees = (state) => state.employees.employees
-export const selectEmployeeById = (state, employeeId) => 
-  state.employees.employees.find(employee => employee.id === employeeId)
-export const selectEmployeesCount = (state) => state.employees.employees.length
+export const selectAllEmployees = state => state.employees.employees
+export const selectEmployeeById = (state, employeeId) => state.employees.employees.find(employee => employee.id === employeeId)
+export const selectEmployeesCount = state => state.employees.employees.length
 
 export default employeesSlice.reducer

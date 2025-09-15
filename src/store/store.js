@@ -5,7 +5,7 @@ export const store = configureStore({
   reducer: {
     employees: employeesReducer
   },
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: ['persist/PERSIST']

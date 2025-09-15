@@ -1,17 +1,6 @@
 import PropTypes from 'prop-types'
 
-const AppInput = ({ 
-  id, 
-  label, 
-  type = 'text', 
-  name, 
-  value, 
-  onChange, 
-  required = false,
-  className = 'form-input',
-  placeholder,
-  ...props 
-}) => {
+const AppInput = ({ id, label, type = 'text', name, value, onChange, required = false, className = 'form-input', placeholder, ...props }) => {
   return (
     <div>
       <label htmlFor={id} className='form-label'>

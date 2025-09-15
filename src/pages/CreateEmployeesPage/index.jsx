@@ -1,50 +1,46 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Modal } from 'hrnet-plugin-modal-aw';
-import 'hrnet-plugin-modal-aw/dist/style.css';
+import { Modal } from 'hrnet-plugin-modal-aw'
+import 'hrnet-plugin-modal-aw/dist/style.css'
 import { addEmployee } from '../../store/employeesSlice'
 import AppInput from '../../components/AppInput'
 import AppSelectGeneric from '../../components/AppSelectGeneric'
 import AppDatePicker from '../../components/AppDatePicker'
-import  {departmentOptions , stateOptions} from '../../utils/constants.js'
+import { departmentOptions, stateOptions } from '../../utils/constants.js'
 const CreateEmployeesPage = () => {
   const dispatch = useDispatch()
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [messageModal, setMessageModal] = useState('');
-  
-
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [messageModal, setMessageModal] = useState('')
 
   const [formData, setFormData] = useState({
-    firstName: 'aze',
-    lastName: 'aze',
-    dateOfBirth: '2025-08-15',
-    startDate: '2025-08-15',
-    street: 'aze',
-    city: 'aze',
-    state: 'CA',
-    zipCode: '12345',
-    department: 'Sales'
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    startDate: '',
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    department: ''
   })
 
-  const toggleModal = (message) => {
-    setMessageModal(message);
-    setIsModalOpen(!isModalOpen);
-  };
+  const toggleModal = message => {
+    setMessageModal(message)
+    setIsModalOpen(!isModalOpen)
+  }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     const { name, value } = e.target
-    console.log("🚀 ~ handleInputChange ~ value:", value)
-    console.log("🚀 ~ handleInputChange ~ name:", name)
     setFormData(prev => ({
       ...prev,
       [name]: value
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault()
-    
+
     // Validation des champs obligatoires
     const requiredFields = {
       firstName: 'First Name',
@@ -59,7 +55,7 @@ const CreateEmployeesPage = () => {
     }
 
     const emptyFields = []
-    
+
     for (const [field, label] of Object.entries(requiredFields)) {
       if (!formData[field] || formData[field].trim() === '') {
         emptyFields.push(label)
@@ -94,137 +90,88 @@ const CreateEmployeesPage = () => {
     <div className='container page-container'>
       <div className='header-section'>
         <h1 className='page-title'>Create Employee</h1>
-        <Link 
-          to='/list' 
-          className='btn-primary'
-        >
+        <Link to='/list' className='btn-primary'>
           View Current Employees
         </Link>
       </div>
-      
+
       <form className='form-container' onSubmit={handleSubmit}>
         <div className='flex-form'>
-          <AppInput
-            id="first-name"
-            label="First Name"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleInputChange}
-            required
-          />
+          <AppInput id='first-name' label='First Name' name='firstName' value={formData.firstName} onChange={handleInputChange} required />
 
-          <AppInput
-            id="last-name"
-            label="Last Name"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleInputChange}
-            required
-          />
+          <AppInput id='last-name' label='Last Name' name='lastName' value={formData.lastName} onChange={handleInputChange} required />
 
           <AppDatePicker
-            id="date-of-birth"
-            label="Date of Birth"
-            name="dateOfBirth"
+            id='date-of-birth'
+            label='Date of Birth'
+            name='dateOfBirth'
             value={formData.dateOfBirth}
             onChange={handleInputChange}
-            dropdownPosition="right"
-
+            dropdownPosition='right'
             required
           />
 
           <AppDatePicker
-            id="start-date"
-            label="Start Date"
-            name="startDate"
+            id='start-date'
+            label='Start Date'
+            name='startDate'
             value={formData.startDate}
             onChange={handleInputChange}
-            dropdownPosition="left"
+            dropdownPosition='left'
             required
           />
-          
-          
         </div>
 
         <fieldset className='fieldset'>
           <legend className='legend'>Address</legend>
-          
+
           <div className='flex-form-address'>
             <div className='span-2'>
-              <AppInput
-                id="street"
-                label="Street"
-                name="street"
-                value={formData.street}
-                onChange={handleInputChange}
-                required
-              />
+              <AppInput id='street' label='Street' name='street' value={formData.street} onChange={handleInputChange} required />
             </div>
 
-            <AppInput
-              id="city"
-              label="City"
-              name="city"
-              value={formData.city}
-              onChange={handleInputChange}
-              required
-            />
+            <AppInput id='city' label='City' name='city' value={formData.city} onChange={handleInputChange} required />
 
             <div>
               <label htmlFor='state' className='form-label'>
                 State
               </label>
               <AppSelectGeneric
-                id="state"
-                label="State"
-                name="state"
+                id='state'
+                label='State'
+                name='state'
                 value={formData.state}
                 onChange={handleInputChange}
                 options={stateOptions}
                 required
-                placeholder="Select a state"
+                placeholder='Select a state'
               />
             </div>
 
-            <AppInput
-              id="zip-code"
-              label="Zip Code"
-              type="number"
-              name="zipCode"
-              value={formData.zipCode}
-              onChange={handleInputChange}
-              required
-            />
+            <AppInput id='zip-code' label='Zip Code' type='number' name='zipCode' value={formData.zipCode} onChange={handleInputChange} required />
           </div>
         </fieldset>
 
         <div className='mb-6'>
           <AppSelectGeneric
-            id="department"
-            label="Department"
-            name="department"
+            id='department'
+            label='Department'
+            name='department'
             value={formData.department}
             onChange={handleInputChange}
             options={departmentOptions}
             required
-            placeholder="Select a department"
+            placeholder='Select a department'
           />
         </div>
 
         <div className='btn-center'>
-          <button 
-            type='submit'
-            className='btn-primary'
-          >
+          <button type='submit' className='btn-primary'>
             Save Employee
           </button>
         </div>
       </form>
-      <Modal 
-        isOpen={isModalOpen} 
-        message={messageModal}
-        onClose={toggleModal} 
-      />
+      <Modal isOpen={isModalOpen} message={messageModal} onClose={toggleModal} />
     </div>
   )
 }

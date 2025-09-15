@@ -72,7 +72,7 @@ const AppTable = ({
   // Données paginées
   const paginatedData = useMemo(() => {
     if (!enablePagination) return sortedData
-    
+
     const startIndex = (currentPage - 1) * pageSize
     const endIndex = startIndex + pageSize
     return sortedData.slice(startIndex, endIndex)
@@ -105,7 +105,6 @@ const AppTable = ({
         <table className='table'>
           <thead className='table-header'>
             <tr>
-              
               {columns.map(column => (
                 <th
                   key={column.key}
@@ -113,9 +112,9 @@ const AppTable = ({
                   onClick={() => handleSort(column.key)}
                   style={{ cursor: enableSorting ? 'pointer' : 'default' }}
                 >
-                  <span className="table-header-th-content">
+                  <span className='table-header-th-content'>
                     <span>{column.label}</span>
-                    <span className="sort-icon">{getSortIcon(column.key)}</span>
+                    <span className='sort-icon'>{getSortIcon(column.key)}</span>
                   </span>
                 </th>
               ))}
@@ -134,57 +133,42 @@ const AppTable = ({
           </tbody>
         </table>
       </div>
-      
+
       {enablePagination && totalPages > 1 && (
-        <div className="pagination-container">
-          <div className="pagination-info">
+        <div className='pagination-container'>
+          <div className='pagination-info'>
             <span>
               Showing {(currentPage - 1) * pageSize + 1} to {Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length} entries
             </span>
           </div>
-          
-          <div className="pagination-controls">
-            <div className="page-size-selector">
-              <label htmlFor="pageSize">Show: </label>
-              <select 
-                id="pageSize"
-                value={pageSize} 
-                onChange={(e) => handlePageSizeChange(e.target.value)}
-                className="page-size-select"
-              >
+
+          <div className='pagination-controls'>
+            <div className='page-size-selector'>
+              <label htmlFor='pageSize'>Show: </label>
+              <select id='pageSize' value={pageSize} onChange={e => handlePageSizeChange(e.target.value)} className='page-size-select'>
                 {pageSizeOptions.map(size => (
-                  <option key={size} value={size}>{size}</option>
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
                 ))}
               </select>
               <span> entries</span>
             </div>
-            
-            <div className="page-navigation">
-              <button 
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="pagination-btn"
-              >
+
+            <div className='page-navigation'>
+              <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className='pagination-btn'>
                 Previous
               </button>
-              
-              <div className="page-numbers">
+
+              <div className='page-numbers'>
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`pagination-btn ${page === currentPage ? 'active' : ''}`}
-                  >
+                  <button key={page} onClick={() => handlePageChange(page)} className={`pagination-btn ${page === currentPage ? 'active' : ''}`}>
                     {page}
                   </button>
                 ))}
               </div>
-              
-              <button 
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="pagination-btn"
-              >
+
+              <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className='pagination-btn'>
                 Next
               </button>
             </div>
