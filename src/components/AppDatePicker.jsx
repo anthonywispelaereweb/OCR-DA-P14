@@ -8,7 +8,7 @@ function pad(n) {
   return n < 10 ? `0${n}` : n
 }
 
-const AppDatePicker = ({ label, name, value, onChange, required, dropdownPosition = 'bottom' }) => {
+const AppDatePicker = ({ label, name, value, onChange, required, dropdownPosition = 'bottom', allowFutureDates = false }) => {
   const [showCalendar, setShowCalendar] = useState(false)
   const [selectedDate, setSelectedDate] = useState(value || '')
   const [viewDate, setViewDate] = useState(() => {
@@ -21,7 +21,10 @@ const AppDatePicker = ({ label, name, value, onChange, required, dropdownPositio
   const ref = useRef()
 
   const currentYear = new Date().getFullYear()
-  const years = Array.from({ length: 21 }, (_, i) => currentYear - 10 + i)
+  const years = Array.from({ length: 201 }, (_, i) => (currentYear - 125) + i)
+
+  // Calcul de la date max autorisée
+  const today = new Date();
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -44,15 +47,17 @@ const AppDatePicker = ({ label, name, value, onChange, required, dropdownPositio
   const handleInputClick = () => setShowCalendar(true)
 
   const handleDayClick = day => {
-    const year = viewDate.getFullYear()
-    const month = viewDate.getMonth()
-    const dateStr = `${year}-${pad(month + 1)}-${pad(day)}`
-    setSelectedDate(dateStr)
-    setShowCalendar(false)
+    const year = viewDate.getFullYear();
+    const month = viewDate.getMonth();
+    const dateObj = new Date(year, month, day);
+    if (!allowFutureDates && dateObj > today) return;
+    const dateStr = `${year}-${pad(month + 1)}-${pad(day)}`;
+    setSelectedDate(dateStr);
+    setShowCalendar(false);
     if (onChange) {
-      onChange({ target: { name, value: dateStr } })
+      onChange({ target: { name, value: dateStr } });
     }
-  }
+  };
 
   const handlePrevMonth = () => {
     setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1))
@@ -119,20 +124,16 @@ const AppDatePicker = ({ label, name, value, onChange, required, dropdownPositio
       {showCalendar && (
         <div className={`calendar-popup ${dropdownPosition}`}>
           <div className='calendar-nav'>
-            <button type='button' className='calendar-nav-btn' onClick={handlePrevMonth}>
-              &lt;
-            </button>
+            <button type='button' className='calendar-nav-btn' onClick={handlePrevMonth}>&lt;</button>
             <span>{viewDate.toLocaleString('default', { month: 'long' })}</span>
             <select value={viewDate.getFullYear()} onChange={handleYearChange} className='calendar-nav-btn' style={{ margin: '0 0.5rem' }}>
-              {years.map(y => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
+              {years.map(y => {
+                // Si allowFutureDates=false, on ne propose pas les années > aujourd'hui
+                if (!allowFutureDates && y > today.getFullYear()) return null;
+                return <option key={y} value={y}>{y}</option>;
+              })}
             </select>
-            <button type='button' className='calendar-nav-btn' onClick={handleNextMonth}>
-              &gt;
-            </button>
+            <button type='button' className='calendar-nav-btn' onClick={handleNextMonth}>&gt;</button>
           </div>
           <table>
             <thead>
@@ -148,11 +149,18 @@ const AppDatePicker = ({ label, name, value, onChange, required, dropdownPositio
               {weeks.map((week, i) => (
                 <tr key={i}>
                   {week.map((day, j) => {
-                    const isSelected = day && selectedDate === `${viewDate.getFullYear()}-${pad(viewDate.getMonth() + 1)}-${pad(day)}`
+                    const isSelected = day && selectedDate === `${viewDate.getFullYear()}-${pad(viewDate.getMonth() + 1)}-${pad(day)}`;
+                    const isFuture = day && !allowFutureDates && (new Date(viewDate.getFullYear(), viewDate.getMonth(), day) > today);
                     return (
                       <td key={j} style={{ textAlign: 'center', padding: 2 }}>
                         {day ? (
-                          <button type='button' className={`calendar-day-btn${isSelected ? ' selected' : ''}`} onClick={() => handleDayClick(day)}>
+                          <button
+                            type='button'
+                            className={`calendar-day-btn${isSelected ? ' selected' : ''}`}
+                            onClick={() => handleDayClick(day)}
+                            disabled={isFuture}
+                            style={isFuture ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+                          >
                             {day}
                           </button>
                         ) : null}
@@ -166,7 +174,7 @@ const AppDatePicker = ({ label, name, value, onChange, required, dropdownPositio
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default AppDatePicker

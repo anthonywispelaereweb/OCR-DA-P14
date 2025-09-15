@@ -119,6 +119,7 @@ const CreateEmployeesPage = () => {
             onChange={handleInputChange}
             dropdownPosition='left'
             required
+            allowFutureDates
           />
         </div>
 
