@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 
 const AppTable = ({
   columns = [],
@@ -10,12 +10,20 @@ const AppTable = ({
   className = 'table-container',
   enableSorting = true,
   enablePagination = true,
-  defaultPageSize = 10,
-  pageSizeOptions = [5, 10, 20, 50]
+  defaultPageSize = 5,
+  pageSizeOptions = [5, 10, 20, 50],
+  tableAriaLabel = 'Tableau de données'
 }) => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(defaultPageSize)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filteredData, setFilteredData] = useState(data)
+
+  // Mettre à jour filteredData si data change (ex: ajout/suppression)
+  useEffect(() => {
+    setFilteredData(data)
+  }, [data])
 
   // Fonction pour gérer le tri
   const handleSort = columnKey => {
@@ -40,11 +48,32 @@ const AppTable = ({
     setCurrentPage(1) // Retour à la première page
   }
 
+  // Fonction de recherche
+  const handleSearch = e => {
+    const value = e.target.value
+    setSearchTerm(value)
+    setCurrentPage(1)
+    if (!value) {
+      setFilteredData(data)
+      setSortConfig({ key: null, direction: 'asc' })
+      return
+    }
+    const lower = value.toLowerCase()
+    const result = data.filter(row =>
+      columns.some(column => {
+        const cellValue = row[column.key]
+        return cellValue != null && String(cellValue).toLowerCase().includes(lower)
+      })
+    )
+    setFilteredData(result)
+    setSortConfig({ key: null, direction: 'asc' })
+  }
+
   // Données triées
   const sortedData = useMemo(() => {
-    if (!sortConfig.key || !enableSorting) return data
+    if (!sortConfig.key || !enableSorting) return filteredData
 
-    return [...data].sort((a, b) => {
+    return [...filteredData].sort((a, b) => {
       const aValue = a[sortConfig.key]
       const bValue = b[sortConfig.key]
 
@@ -67,7 +96,7 @@ const AppTable = ({
         return bString.localeCompare(aString)
       }
     })
-  }, [data, sortConfig, enableSorting])
+  }, [filteredData, sortConfig, enableSorting])
 
   // Données paginées
   const paginatedData = useMemo(() => {
@@ -91,7 +120,7 @@ const AppTable = ({
     return sortConfig.direction === 'asc' ? '↑' : '↓'
   }
 
-  if (data.length === 0) {
+  if (filteredData.length === 0) {
     return (
       <div className='text-center py-12'>
         <p className='text-lg text-gray-600 mb-4'>{emptyMessage}</p>
@@ -101,8 +130,19 @@ const AppTable = ({
 
   return (
     <div className={className}>
+      <div className='table-search-row'>
+        <label htmlFor='table-search-input' className='table-search-label'>Rechercher</label>
+        <input
+          id='table-search-input'
+          type='text'
+          placeholder='Search...'
+          className='table-search-input'
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
       <div className='table-wrapper'>
-        <table className='table'>
+        <table className='table' aria-label={tableAriaLabel}>
           <thead className='table-header'>
             <tr>
               {columns.map(column => (
@@ -111,6 +151,19 @@ const AppTable = ({
                   className={`table-th ${enableSorting ? 'table-th-sortable' : ''}`}
                   onClick={() => handleSort(column.key)}
                   style={{ cursor: enableSorting ? 'pointer' : 'default' }}
+                  scope='col'
+                  tabIndex={enableSorting ? 0 : undefined}
+                  aria-sort={
+                    enableSorting && sortConfig.key === column.key
+                      ? (sortConfig.direction === 'asc' ? 'ascending' : 'descending')
+                      : 'none'
+                  }
+                  aria-label={enableSorting ? `${column.label}, trier` : column.label}
+                  onKeyDown={e => {
+                    if (enableSorting && (e.key === 'Enter' || e.key === ' ')) {
+                      handleSort(column.key)
+                    }
+                  }}
                 >
                   <span className='table-header-th-content'>
                     <span>{column.label}</span>
@@ -131,9 +184,9 @@ const AppTable = ({
               </tr>
             ))}
           </tbody>
+          <caption className='sr-only table-caption'>{tableAriaLabel}</caption>
         </table>
       </div>
-
       {enablePagination && totalPages > 1 && (
         <div className='pagination-container'>
           <div className='pagination-info'>
@@ -141,7 +194,6 @@ const AppTable = ({
               Showing {(currentPage - 1) * pageSize + 1} to {Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length} entries
             </span>
           </div>
-
           <div className='pagination-controls'>
             <div className='page-size-selector'>
               <label htmlFor='pageSize'>Show: </label>
@@ -154,12 +206,10 @@ const AppTable = ({
               </select>
               <span> entries</span>
             </div>
-
             <div className='page-navigation'>
               <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className='pagination-btn'>
                 Previous
               </button>
-
               <div className='page-numbers'>
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                   <button key={page} onClick={() => handlePageChange(page)} className={`pagination-btn ${page === currentPage ? 'active' : ''}`}>
@@ -167,7 +217,6 @@ const AppTable = ({
                   </button>
                 ))}
               </div>
-
               <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className='pagination-btn'>
                 Next
               </button>
@@ -175,7 +224,6 @@ const AppTable = ({
           </div>
         </div>
       )}
-
       {showFooter && !enablePagination && (
         <div className='table-footer'>
           <p className='table-footer-text'>

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectAllEmployees } from '../../store/employeesSlice'
 import AppTable from '../../components/AppTable'
+import SeoHelmet from '../../components/SeoHelmet'
 
 const CurrentEmployeesPage = () => {
   const employees = useSelector(selectAllEmployees)
@@ -35,26 +36,28 @@ const CurrentEmployeesPage = () => {
   ]
 
   return (
-    <div className='container'>
+    <main className='container' role='main' aria-label='Liste des employés'>
+      <SeoHelmet title="Liste des employés | HRnet" description="Consultez la liste des employés enregistrés dans HRnet. Tri, recherche et pagination disponibles." />
       <h1 className='page-title'>Current Employees</h1>
 
       {employees.length === 0 ? (
         <div className='text-center py-12'>
-          <p className='text-lg text-gray-600 mb-4'>No employees found.</p>
-          <Link to='/' className='btn-primary no-underline'>
+          <p className='text-lg text-gray-600 mb-4' role='status'>No employees found.</p>
+          <span className='sr-only'>Aucun employé n'est enregistré pour le moment.</span>
+          <Link to='/' className='btn-primary no-underline' aria-label='Créer un nouvel employé'>
             Create your first employee
           </Link>
         </div>
       ) : (
-        <AppTable columns={columns} data={employees} footerLabel='Total employees' />
+        <AppTable columns={columns} data={employees} footerLabel='Total employees' tableAriaLabel='Liste des employés' />
       )}
 
       <div className='text-center mt-8'>
-        <Link to='/' className='btn-primary no-underline'>
+        <Link to='/' className='btn-primary no-underline' aria-label='Retour à l’accueil'>
           ← Back to Home
         </Link>
       </div>
-    </div>
+    </main>
   )
 }
 
