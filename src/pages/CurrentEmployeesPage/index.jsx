@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { selectAllEmployees } from '@store/employeesSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectAllEmployees, loadMockData } from '@store/employeesSlice'
 import AppTable from '@components/AppTable'
 import { useSeo } from '@hooks/useSeo'
 
@@ -10,6 +10,7 @@ const CurrentEmployeesPage = () => {
     description: "Consultez la liste des employés enregistrés dans HRnet. Tri, recherche et pagination disponibles."
   })
 
+  const dispatch = useDispatch()
   const employees = useSelector(selectAllEmployees)
 
   // Fonction pour formater les dates
@@ -46,7 +47,6 @@ const CurrentEmployeesPage = () => {
       {employees.length === 0 ? (
         <div className='text-center py-12'>
           <p className='text-lg text-gray-600 mb-4' role='status'>No employees found.</p>
-          <span className='sr-only'>Aucun employé n'est enregistré pour le moment.</span>
           <Link to='/' className='btn-primary no-underline' aria-label='Créer un nouvel employé'>
             Create your first employee
           </Link>
@@ -55,11 +55,21 @@ const CurrentEmployeesPage = () => {
         <AppTable columns={columns} data={employees} footerLabel='Total employees' tableAriaLabel='Liste des employés' />
       )}
 
-      <div className='text-center mt-8'>
+      <div className='btn-actions'>
+        { employees.length === 0 && (<button
+          className='btn-primary no-underline'
+          type='button'
+          onClick={() => dispatch(loadMockData())}
+          aria-label='Recharger les données de démonstration'
+        >
+          Load Mock Data
+        </button>)
+        }
         <Link to='/' className='btn-primary no-underline' aria-label='Retour à l’accueil'>
           ← Back to Home
         </Link>
       </div>
+
     </main>
   )
 }

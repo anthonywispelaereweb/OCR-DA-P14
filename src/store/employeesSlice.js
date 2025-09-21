@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getInitalData, addLocalEmployee } from '../utils/initalData'
+import { mockData } from '@utils/initalData'
 const initialState = {
-  employees: getInitalData() || [],
+  employees: [],
   loading: false,
   error: null
 }
@@ -16,8 +16,6 @@ const employeesSlice = createSlice({
         ...action.payload,
         createdAt: new Date().toISOString()
       }
-      addLocalEmployee(newEmployee) // Save to local storage
-      // Add the new employee to the state
       state.employees.push(newEmployee)
     },
     removeEmployee: (state, action) => {
@@ -32,11 +30,14 @@ const employeesSlice = createSlice({
     },
     clearEmployees: state => {
       state.employees = []
+    },
+    loadMockData: state => {
+      state.employees = mockData
     }
   }
 })
 
-export const { addEmployee, removeEmployee, updateEmployee, clearEmployees } = employeesSlice.actions
+export const { addEmployee, removeEmployee, updateEmployee, clearEmployees, loadMockData } = employeesSlice.actions
 
 // Selectors
 export const selectAllEmployees = state => state.employees.employees

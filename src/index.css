@@ -653,3 +653,9 @@ a {
   cursor: pointer;
   transition: background-color 0.2s;
 }
+.btn-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem auto;
+}

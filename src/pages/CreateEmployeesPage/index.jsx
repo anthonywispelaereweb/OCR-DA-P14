@@ -179,7 +179,7 @@ const CreateEmployeesPage = () => {
             </button>
           </div>
         </form>
-        <Modal position='top-left' isOpen={isModalOpen} message={messageModal} onClose={toggleModal} customClass='my-custom-class-modal' />
+        <Modal position='center' isOpen={isModalOpen} message={messageModal} onClose={toggleModal} customClass='my-custom-class-modal' />
       </div>
     </>
   )
