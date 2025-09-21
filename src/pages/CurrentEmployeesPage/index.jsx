@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { selectAllEmployees } from '../../store/employeesSlice'
-import AppTable from '../../components/AppTable'
-import SeoHelmet from '../../components/SeoHelmet'
+import { selectAllEmployees } from '@store/employeesSlice'
+import AppTable from '@components/AppTable'
+import { useSeo } from '@hooks/useSeo'
 
 const CurrentEmployeesPage = () => {
+  useSeo({
+    title: "Liste des employés | HRnet",
+    description: "Consultez la liste des employés enregistrés dans HRnet. Tri, recherche et pagination disponibles."
+  })
+
   const employees = useSelector(selectAllEmployees)
 
   // Fonction pour formater les dates
@@ -37,9 +42,7 @@ const CurrentEmployeesPage = () => {
 
   return (
     <main className='container' role='main' aria-label='Liste des employés'>
-      <SeoHelmet title="Liste des employés | HRnet" description="Consultez la liste des employés enregistrés dans HRnet. Tri, recherche et pagination disponibles." />
       <h1 className='page-title'>Current Employees</h1>
-
       {employees.length === 0 ? (
         <div className='text-center py-12'>
           <p className='text-lg text-gray-600 mb-4' role='status'>No employees found.</p>

@@ -3,14 +3,19 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Modal } from 'hrnet-plugin-modal-aw'
 import 'hrnet-plugin-modal-aw/dist/style.css'
-import { addEmployee } from '../../store/employeesSlice'
-import AppInput from '../../components/AppInput'
-import AppSelectGeneric from '../../components/AppSelectGeneric'
-import AppDatePicker from '../../components/AppDatePicker'
-import { departmentOptions, stateOptions } from '../../utils/constants.js'
-import SeoHelmet from '../../components/SeoHelmet'
+import { addEmployee } from '@store/employeesSlice'
+import AppInput from '@components/AppInput'
+import AppSelectGeneric from '@components/AppSelectGeneric'
+import AppDatePicker from '@components/AppDatePicker'
+import { departmentOptions, stateOptions } from '@utils/constants.js'
+import { useSeo } from '@hooks/useSeo'
 
 const CreateEmployeesPage = () => {
+  useSeo({
+    title: "Créer un employé | HRnet",
+    description: "Formulaire de création d'un nouvel employé HRnet. Saisissez les informations personnelles, l'adresse et le département."
+  })
+
   const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [messageModal, setMessageModal] = useState('')
@@ -90,7 +95,6 @@ const CreateEmployeesPage = () => {
 
   return (
     <>
-      <SeoHelmet title="Créer un employé | HRnet" description="Formulaire de création d'un nouvel employé HRnet. Saisissez les informations personnelles, l'adresse et le département." />
       <div className='container page-container'>
         <div className='header-section'>
           <h1 className='page-title'>Create Employee</h1>
@@ -175,7 +179,7 @@ const CreateEmployeesPage = () => {
             </button>
           </div>
         </form>
-        <Modal isOpen={isModalOpen} message={messageModal} onClose={toggleModal} />
+        <Modal position='top-left' isOpen={isModalOpen} message={messageModal} onClose={toggleModal} customClass='my-custom-class-modal' />
       </div>
     </>
   )
