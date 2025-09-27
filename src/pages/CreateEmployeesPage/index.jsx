@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Modal } from 'hrnet-plugin-modal-aw'
-import 'hrnet-plugin-modal-aw/dist/style.css'
 import { addEmployee } from '@store/employeesSlice'
 import AppInput from '@components/AppInput'
 import AppSelectGeneric from '@components/AppSelectGeneric'
 import AppDatePicker from '@components/AppDatePicker'
 import { departmentOptions, stateOptions } from '@utils/constants.js'
 import { useSeo } from '@hooks/useSeo'
+import 'hrnet-plugin-modal-aw/dist/style.css'
+
 
 const CreateEmployeesPage = () => {
   useSeo({
@@ -105,9 +106,9 @@ const CreateEmployeesPage = () => {
 
         <form className='form-container' onSubmit={handleSubmit}>
           <div className='flex-form'>
-            <AppInput id='first-name' label='First Name' name='firstName' value={formData.firstName} onChange={handleInputChange} required />
+            <AppInput id='first-name' label='First Name' name='firstName' value={formData.firstName} onChange={handleInputChange} />
 
-            <AppInput id='last-name' label='Last Name' name='lastName' value={formData.lastName} onChange={handleInputChange} required />
+            <AppInput id='last-name' label='Last Name' name='lastName' value={formData.lastName} onChange={handleInputChange} />
 
             <AppDatePicker
               id='date-of-birth'
@@ -116,7 +117,6 @@ const CreateEmployeesPage = () => {
               value={formData.dateOfBirth}
               onChange={handleInputChange}
               dropdownPosition='right'
-              required
             />
 
             <AppDatePicker
@@ -126,7 +126,6 @@ const CreateEmployeesPage = () => {
               value={formData.startDate}
               onChange={handleInputChange}
               dropdownPosition='left'
-              required
               allowFutureDates
             />
           </div>
@@ -136,10 +135,10 @@ const CreateEmployeesPage = () => {
 
             <div className='flex-form-address'>
               <div className='span-2'>
-                <AppInput id='street' label='Street' name='street' value={formData.street} onChange={handleInputChange} required />
+                <AppInput id='street' label='Street' name='street' value={formData.street} onChange={handleInputChange} />
               </div>
 
-              <AppInput id='city' label='City' name='city' value={formData.city} onChange={handleInputChange} required />
+              <AppInput id='city' label='City' name='city' value={formData.city} onChange={handleInputChange} />
 
               <div>
                 <label htmlFor='state' className='form-label'>
@@ -151,12 +150,11 @@ const CreateEmployeesPage = () => {
                   value={formData.state}
                   onChange={handleInputChange}
                   options={stateOptions}
-                  required
                   placeholder='Select a state'
                 />
               </div>
 
-              <AppInput id='zip-code' label='Zip Code' type='number' name='zipCode' value={formData.zipCode} onChange={handleInputChange} required />
+              <AppInput id='zip-code' label='Zip Code' type='number' name='zipCode' value={formData.zipCode} onChange={handleInputChange} />
             </div>
           </fieldset>
 
@@ -168,7 +166,6 @@ const CreateEmployeesPage = () => {
               value={formData.department}
               onChange={handleInputChange}
               options={departmentOptions}
-              required
               placeholder='Select a department'
             />
           </div>
@@ -179,7 +176,15 @@ const CreateEmployeesPage = () => {
             </button>
           </div>
         </form>
-        <Modal position='center' isOpen={isModalOpen} message={messageModal} onClose={toggleModal} customClass='my-custom-class-modal' />
+        <Modal 
+          position='center' 
+          isOpen={isModalOpen} 
+          message={messageModal} 
+          onClose={toggleModal} 
+          customClass={messageModal?.includes('successfully')? 'my-custom-class-modal' : 'my-custom-class-modal-error'} 
+          backdropColor='rgba(0, 0, 0, 0.7)'
+          title={messageModal?.includes('successfully') ? 'Success' : 'Error'}
+        />
       </div>
     </>
   )
