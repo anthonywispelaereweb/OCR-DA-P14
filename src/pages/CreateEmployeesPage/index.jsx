@@ -10,10 +10,9 @@ import { departmentOptions, stateOptions } from '@utils/constants.js'
 import { useSeo } from '@hooks/useSeo'
 import 'hrnet-plugin-modal-aw/dist/style.css'
 
-
 const CreateEmployeesPage = () => {
   useSeo({
-    title: "Créer un employé | HRnet",
+    title: 'Créer un employé | HRnet',
     description: "Formulaire de création d'un nouvel employé HRnet. Saisissez les informations personnelles, l'adresse et le département."
   })
 
@@ -181,10 +180,22 @@ const CreateEmployeesPage = () => {
           isOpen={isModalOpen} 
           message={messageModal} 
           onClose={toggleModal} 
-          customClass={messageModal?.includes('successfully')? 'my-custom-class-modal' : 'my-custom-class-modal-error'} 
+          customClass={typeof messageModal === 'string' && messageModal.includes('successfully') ? 'my-custom-class-modal' : 'my-custom-class-modal-error'} 
           backdropColor='rgba(0, 0, 0, 0.7)'
-          title={messageModal?.includes('successfully') ? 'Success' : 'Error'}
+          title={typeof messageModal === 'string' && messageModal.includes('successfully') ? 'Success' : 'Error'}
         />
+        {/* <Modal
+          isOpen={isModalOpen}
+          onClose={toggleModal}
+          customClass={typeof messageModal === 'string' && messageModal.includes('successfully') ? 'my-custom-class-modal' : 'my-custom-class-modal-error'}
+          backdropColor='rgba(0, 0, 0, 0.7)'
+        >
+          <h3>{typeof messageModal === 'string' && messageModal.includes('successfully') ? 'Success' : 'Error'}</h3>
+          <p>{messageModal}</p>
+          <button className='btn-primary' onClick={toggleModal}>
+            Close
+          </button>
+        </Modal> */}
       </div>
     </>
   )

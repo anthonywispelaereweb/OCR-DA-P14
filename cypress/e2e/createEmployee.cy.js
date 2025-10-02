@@ -9,7 +9,7 @@ describe('Create Employee Page', () => {
     cy.get('input[name="firstName"]').type('John')
     cy.get('input[name="lastName"]').type('Doe')
     cy.get('input[name="dateOfBirth"]').click()
-    cy.get('.calendar-day-btn').contains('15').click()
+    cy.get('.calendar-day-btn').contains('1').click()
     cy.get('input[name="startDate"]').click()
     cy.get('.calendar-day-btn').contains('20').click()
     cy.get('input[name="street"]').type('123 Main St')
