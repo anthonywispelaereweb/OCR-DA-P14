@@ -120,7 +120,7 @@ const AppTable = ({
     return sortConfig.direction === 'asc' ? '↑' : '↓'
   }
 
-  if (filteredData.length === 0) {
+  if (filteredData.length === 0 && !searchTerm) {
     return (
       <div className='text-center py-12'>
         <p className='text-lg text-gray-600 mb-4'>{emptyMessage}</p>
@@ -131,7 +131,9 @@ const AppTable = ({
   return (
     <div className={className}>
       <div className='table-search-row'>
-        <label htmlFor='table-search-input' className='table-search-label'>Rechercher</label>
+        <label htmlFor='table-search-input' className='table-search-label'>
+          Rechercher
+        </label>
         <input
           id='table-search-input'
           type='text'
@@ -153,11 +155,7 @@ const AppTable = ({
                   style={{ cursor: enableSorting ? 'pointer' : 'default' }}
                   scope='col'
                   tabIndex={enableSorting ? 0 : undefined}
-                  aria-sort={
-                    enableSorting && sortConfig.key === column.key
-                      ? (sortConfig.direction === 'asc' ? 'ascending' : 'descending')
-                      : 'none'
-                  }
+                  aria-sort={enableSorting && sortConfig.key === column.key ? (sortConfig.direction === 'asc' ? 'ascending' : 'descending') : 'none'}
                   aria-label={enableSorting ? `${column.label}, trier` : column.label}
                   onKeyDown={e => {
                     if (enableSorting && (e.key === 'Enter' || e.key === ' ')) {
@@ -184,6 +182,12 @@ const AppTable = ({
               </tr>
             ))}
           </tbody>
+          {filteredData.length === 0 && searchTerm && (
+            <div className='text-center py-12'>
+              <p className='text-lg text-gray-600 mb-4'>{emptyMessage}</p>
+            </div>
+          )}
+
           <caption className='sr-only table-caption'>{tableAriaLabel}</caption>
         </table>
       </div>
